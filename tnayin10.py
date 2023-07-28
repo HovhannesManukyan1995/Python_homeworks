@@ -80,10 +80,27 @@
 #            print(k,v)
            
 
+#list5
+#lis=['asd','word','wow','1991']
+#count=0
+#for i in lis:
+#    if len(i)>2 and i[0]==i[-1]:
+#        count+=1
+#print(count)
 
-
-
-
+#list6
+#lis=[(2,5),(1,2),(2,3),(4,2),(2,1)]
+#lis1=[]
+#for i in lis:
+#    lis1.append(list(i))
+#for i in lis1:
+#    i.reverse()
+#lis2=sorted(lis1)
+#lis3=[]
+#for i in lis2:
+#    i.reverse()
+#    lis3.append(tuple(i))
+#print(lis3)
 
 
 
