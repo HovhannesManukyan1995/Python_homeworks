@@ -1,25 +1,28 @@
-# Import the libraries select, sys
-import sys
-import select
+import random
+from inputimeout import inputimeout
 
-# Print the question or any line you want
-print("Who is your best friend?")
-print("\nYou have ten seconds to answer!")
 
-# Return 3 new list containing subset of content
-# with timeout after which statement returns
-a, b, c = select.select([sys.stdin], [], [], 10)
 
-# Run if statement till the time is running
-if (a):
-
-	# Read the input and print result
-	print("\nYou stated your best friend name as: ",
-		sys.stdin.readline().strip())
-
-# Run else when time is over
-else:
-
-	# Print the timeout statement
-	print("\nYour time got over")
-
+countries={
+"Japan":"Tokyo",
+"Armenia":"Yerevan",
+"Spain":"Madrid",
+"USA":"Washington",
+"Russia":"Moscow",
+}
+count=0
+lis=list(countries.items())
+random.shuffle(lis)
+dic=dict(lis)
+print(dic)
+for k,v in dic.items():
+    print('what is a capital of:',k)
+    try:
+        something = inputimeout(prompt='enter answer: ', timeout=10)
+        if something==v.lower():
+            print('rite')
+            count+=1
+    except Exception:
+         print( 'time is up')
+         break
+print('you have ',count,'rite answer')
