@@ -1,0 +1,7 @@
+lala 5
+bill 3
+Guest 3
+bob 2
+john 2
+hovo 2
+petros 0
