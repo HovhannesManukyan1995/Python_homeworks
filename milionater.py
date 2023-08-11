@@ -58,11 +58,15 @@ def take_file_users(a):
 
 def select_user(a,md):
     b=input('Enter user name: ')
+    c=b.isalnum()
+    if  c==False:
+        print('you play as: Guest','\n')
+        return 'no'
     if b in md :
         an=input('Do you want to restart results:yes or no:  ')
         if an=='yes':
             print('Welcome',b,'\n')
-        if an=='no':
+        if an=='no' :
             print('You play as: Guest','\n')
             return  'no'
     else:
@@ -74,10 +78,10 @@ def select_user(a,md):
 
 def collect_user(a,b,coun):
     d=str(a).split('\n')
-    if b!='no' and b not in a:
+    if b!='no' and b not in a :
         f=b+' '+str(coun)
         d.append(f)
-    if b=='no':
+    if b=='no' :
         print('Guest'+str(coun)+'\n')
         return d
     for i in range(len(d)):
@@ -126,7 +130,6 @@ def hint_hall_help(a):
     b={}
     c=''
     d=100
-    f=1
     v=0
     for i in range(len(a)):
        if i <3:
@@ -142,6 +145,24 @@ def hint_hall_help(a):
     h.pop(-1)
     return h
 
+def show_hints(a,b):
+    if a>0 :
+        print('choice hint',','.join(b))
+        return input('enter hint: ')
+    else:
+        return ' ' 
+
+def hints_working(a,b,c): 
+    if a =='50/50' and '50/50' in str(c):
+        return ('\n'.join(hint50_50(b)))
+    if a =='hall help' and 'hall help' in str(c):
+        hallhelp=hint_hall_help(b)
+        return ('\n'.join(mix_quest(hallhelp,len(hallhelp))))
+    if a =='call to friend' and 'call to friend' in str(c):
+        return (''.join(hint_friend_call(b)))
+    else:
+        return ' '
+
 
 def del_hint(a,b,c):
     for i in a:
@@ -151,9 +172,6 @@ def del_hint(a,b,c):
     return a,c
 
 
-def input_hints():
-    a=input('Enter hint: ')
-    return a
 
 
 def main():
@@ -168,18 +186,10 @@ def main():
           spl=spl_tupl(cut1)
           print(cut1[0],'\n')
           print('\n'.join(mix_quest(spl,len(spl))),'\n')  
-          if count_hints>0 :
-              print('You have',count_hints,
-                      'hints','\n',(','.join(hints)))      
-              inphint=input_hints()
-          if inphint =='50/50' and '50/50' in str(hints):
-              print('\n'.join(hint50_50(spl)))
-          if inphint =='hall help' and 'hall help' in str(hints):
-              hallhelp=hint_hall_help(spl)
-              print('\n'.join(mix_quest(hallhelp,len(hallhelp))))
-          if inphint =='call to friend' and 'call to friend' in str(hints):
-              print(''.join(hint_friend_call(spl)))
-          delhint=del_hint(hints,inphint,count_hints)
+          showh=show_hints(count_hints,hints)
+          print(showh)
+          print( hints_working(showh,spl,hints))
+          delhint=del_hint(hints,showh,count_hints)
           hints=delhint[0]            
           count_hints=delhint[1]
           inp=input_ans(spl[0])
