@@ -1,33 +1,49 @@
 import random
 
-def take_questions_file(a):
-    type(a)==str()
-    b=open(a,'r')
-    c=b.readlines()
-    a=''
-    for i in c:
-        a+=i
-    a=a.strip()
-    d=a.split('\n')
-    b.close()
-    return d
 
-def mix_quest(a,b):
-     c=random.sample(a,b)
-     return c
+class Questions_List:
+    #Take questions from file and mix it
+    def __init__(self,quest_file):
+        self.quest=quest_file
+    
+    def __str__(self):
+        return str(self.quest)
+        
+    def take_questions_file(self,a):
+        b=open(a,'r')
+        c=b.readlines()
+        a=''
+        for i in c:
+            a+=i
+        a=a.strip()
+        d=a.split('\n')
+        b.close()
+        return d
+    
+   
+    def mix_quest(self,quest_list,a):
+        c=random.sample(quest_list,a)
+        return c
 
+class Show_quest:
+    def __init__(self,quest_list):
+        self.quest_list=quest_list
 
-def cut_quest(a):
+    def __repr__(self):
+        return str(self.quest_list)
+
+    def cut_quest(self,a):
         for j in range(len(a)):
                if a[j]=='?':
                    return a[:j], a[j+1:]
 
 
-def spl_tupl(a):
-    for i in range(len(a)):
-        if i==1:
-            b= a[i].split(',')
-            return b
+    def spl_tupl(self,a):
+        for i in range(len(a)):
+            if i==1:
+                b= a[i].split(',')
+                return b
+
 
 
 def input_ans(b):
@@ -41,8 +57,7 @@ def input_ans(b):
     
 
 def take_file_users(a):
-    type(a)==str()
-    b=open(a ,'r')
+    b=open(str(a) ,'r')
     c=b.readlines()
     a=''
     md={}
@@ -177,22 +192,27 @@ def del_hint(a,b,c):
 def main():
      user=take_file_users('top_players.txt')
      seluser= select_user(user[0],user[1])
-     mix=mix_quest(take_questions_file('questions.txt'),5)
+     quest_list=Questions_List('questions.txt')
+     url=quest_list.__str__()
+     quest_list_ready=quest_list.take_questions_file(url)
+     mix=quest_list.mix_quest(quest_list_ready,5)
      count=0
      count_hints=3
      hints= ['50/50','call to friend','hall help']
      for i in mix:
-          cut1=cut_quest(i)
-          spl=spl_tupl(cut1)
-          print(cut1[0],'\n')
-          print('\n'.join(mix_quest(spl,len(spl))),'\n')  
+          sq=Show_quest(i)
+          list_quest=sq.__repr__()
+          cuted_quest=sq.cut_quest(list_quest)
+          spl_quest=sq.spl_tupl(cuted_quest)
+          print(cuted_quest[0],'\n')
+          print('\n'.join(quest_list.mix_quest(spl_quest,len(spl_quest))),'\n') 
           showh=show_hints(count_hints,hints)
           print(showh)
-          print( hints_working(showh,spl,hints))
+          print( hints_working(showh,spl_quest,hints))
           delhint=del_hint(hints,showh,count_hints)
           hints=delhint[0]            
           count_hints=delhint[1]
-          inp=input_ans(spl[0])
+          inp=input_ans(spl_quest[0])
           count+=inp
      delus=collect_user(user[0],seluser,count)
      sorteus=sorted_users(delus)
